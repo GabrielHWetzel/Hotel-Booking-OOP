@@ -18,8 +18,6 @@ class Hotel:
         availability = df.loc[df["id"] == self.hotel_id, 'available'].squeeze()
         if availability == "yes":
             return True
-        else:
-            return False
 
 
 class ReservationTicket:
@@ -30,6 +28,15 @@ class ReservationTicket:
     def generate(self):
         content = f"""Thank you for your reservation!
 Here is you booking data:
+Name: {self.customer_name}
+Hotel: {self.hotel_object.name}"""
+        return content
+
+
+class SpaReservationTicket(ReservationTicket):
+    def generate(self):
+        content = f"""Thank you for your SPA reservation!
+Here is you SPA booking data:
 Name: {self.customer_name}
 Hotel: {self.hotel_object.name}"""
         return content
@@ -70,6 +77,9 @@ elif hotel.available():
             name = input("Enter your name: ")
             reservation_ticket = ReservationTicket(name, hotel)
             print(reservation_ticket.generate())
+            if input("Do you want to book a spa package? ") == "yes":
+                spa_ticket = SpaReservationTicket(name, hotel)
+                print(spa_ticket.generate())
         else:
             print("Password incorrect")
     else:
